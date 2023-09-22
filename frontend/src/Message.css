@@ -1,27 +1,35 @@
+.mess{
+  display: flex;
+  flex-direction: row;
+}
 li {
-    list-style-type: none;
-    margin-bottom: 10px;
-    padding: 10px;
-    overflow: hidden;
-    position: relative;
-    background-color: blue;
-    color: white;
-    width: fit-content;
-  }
-  
-  li.left {
-    float: left;
-    clear: both;
-    margin-right: 20px;
-  }
-  
-  li.right {
-    margin-left: auto; /* Use margin-left: auto to push the element to the right */
-    float: none; /* Clear the float property */
-    text-align: right; /* Align the text to the right */
-    display: flex;
-    justify-content: flex-end;
-  }
+  display:flex;
+  list-style-type: none;
+  margin-bottom: 10px;
+  padding: 10px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 5px;
+}
+
+li.left {
+  float: left;
+  clear: both;
+  justify-self: flex-start;
+  margin-right: 20px;
+  background-color: #ddd;
+  color: black;
+}
+
+li.right {
+  float: right;
+  clear: both;
+  justify-self: flex-end;
+  background-color: blue;
+  color: white;
+  text-align: right;
+}
+
   
   @media (min-width: 576px) {
     .row {li {
@@ -73,4 +81,12 @@ li {
       flex-grow: 1;
       max-width: 100%;
     }
+  }
+  li.self {
+    float: right; /* Float the message to the right */
+    clear: both; /* Clear the float property */
+    margin-left: auto; /* Push the message to the right */
+    text-align: right; /* Align the text to the right */
+    background-color: blue;
+    color: white;
   }

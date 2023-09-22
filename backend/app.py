@@ -7,16 +7,19 @@ from flask_migrate import Migrate
 import os
 
 app = Flask(__name__)
+db_path = os.path.join(os.path.dirname(__file__), 'instance', 'messages.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+app.config['FLASK_ENV'] = os.environ.get('FLASK_ENV', 'development')
 api = Api(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, directory='backend/migrations')
+
 with app.app_context():
-    if not os.path.exists(os.path.join('instance', 'messages.db')):
-        db.create_all()
+    db.create_all()
 
 class Message(db.Model):
+    __tablename__ = 'messages'
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(255), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

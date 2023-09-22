@@ -26,7 +26,7 @@ export default class Chat extends Component {
     axios
       .get("http://localhost:8000/messages")
       .then((res) => {
-        this.setState({ messages: res.data.messages, isLoading: false });
+        this.setState({ messages: res.data.messages.reverse(), isLoading: false });
       })
       .catch((error) => {
         console.error(error);
@@ -39,10 +39,6 @@ export default class Chat extends Component {
     };
 
     socket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      this.setState((prevState) => ({
-        messages: [...prevState.messages, message],
-      }));
       const chatbox = document.querySelector(".chatbox");
       if (chatbox) {
         chatbox.scrollTop = chatbox.scrollHeight;
@@ -67,6 +63,10 @@ export default class Chat extends Component {
       socket.close();
     }
   }
+  handleUpdate = (newData) => {
+    this.setState({ messages: [...this.state.messages, newData] });
+  };
+  
 
   render() {
     const { isLoading, messages, nickname, loggedIn } = this.state;
@@ -84,7 +84,7 @@ export default class Chat extends Component {
               </ul>
             </div>
             <div>
-              <AddMessage socket={this.state.socket} nick={nickname} />
+              <AddMessage onDatasubmit={this.handleUpdate} socket={this.state.socket} nick={nickname} />
             </div>
           </div>
         ) : (

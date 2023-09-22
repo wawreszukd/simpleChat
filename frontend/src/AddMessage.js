@@ -1,5 +1,4 @@
 import { Component } from "react";
-import axios from "axios";
 export default class AddMessage extends Component {
   constructor(props) {
     super(props);
@@ -23,19 +22,18 @@ export default class AddMessage extends Component {
           message: this.state.message,
         })
       );
+      this.props.onDatasubmit({
+        author: this.props.nick,
+        message: this.state.message,
+      })
     }
-    axios.post("http://localhost:8000/add-message", {
-      type: "message",
-      author: this.props.nick,
-      message: this.state.message,
-    });
     this.setState({ message: "" });
   }
 
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} method="">
           <label>
             Message:
             <input

@@ -4,7 +4,7 @@ This repository contains a script to set up a Python virtual environment and ins
 
 ## Prerequisites
 
-- Python.3.10-venv
+- Python3.10-venv
 - Python 3.x installed on your system
 - Node.js and npm installed on your system
 

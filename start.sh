@@ -2,8 +2,9 @@
 
 # Set the path to your Python virtual environment directory
 VENV_DIR="backend/env"
-export FLASK_APP=backend/app.py
-export FLASK_ENV=development
+export FLASK_APP="backend/app.py"
+export FLASK_ENV="development"
+export DATABASE_URI="sqlite:///backend/instance/messages.db"
 
 DB_URI='sqlite:///messages.db'
 
@@ -75,21 +76,20 @@ else
 fi
 
 # Install dependencies
-npm --prefix frontend/ i 
-
+cd frontend
+npm i 
+cd ..
 # Check if database exists
-if check_database_exists; then
-    echo "Database exists. No need to initialize migrations."
-else
-    echo "Database does not exist. Initializing migrations..."
-    flask db init
-    flask db migrate -m "Initial migration"
-    flask db upgrade
-fi
+./makemigrations.sh
+
 
 # Start the application
+echo "Starting frontend"
+open_terminal "npm --prefix frontend/ run start" &
+
+echo "Starting backend"
 open_terminal "python3 backend/app.py" &
-open_terminal "python3 backend/websocket.py "&
-open_terminal "npm --prefix frontend/ run start"
+
+open_terminal "python3 backend/websocket.py" &
 
 wait
