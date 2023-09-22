@@ -17,6 +17,7 @@ This repository contains a script to set up a Python virtual environment and ins
    ```
 
 2. Run the setup script:
-   ```chmod +x setup.sh
+   ```bash
+   chmod +x setup.sh
    ./setup.sh
    ```
