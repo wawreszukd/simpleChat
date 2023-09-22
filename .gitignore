@@ -2,6 +2,6 @@
 */node_modules
 /backend/env/
 backend/__pycache__
-backend/migrations
+*/migrations
 backend/instance
 /migrations/
