@@ -43,6 +43,10 @@ export default class Chat extends Component {
       this.setState((prevState) => ({
         messages: [...prevState.messages, message],
       }));
+      const chatbox = document.querySelector(".chatbox");
+      if (chatbox) {
+        chatbox.scrollTop = chatbox.scrollHeight;
+      }
     };
 
     socket.onclose = () => {

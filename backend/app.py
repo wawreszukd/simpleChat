@@ -3,6 +3,7 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_cors import CORS
+from flask_migrate import Migrate
 import os
 
 app = Flask(__name__)
@@ -10,6 +11,7 @@ api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 with app.app_context():
     if not os.path.exists(os.path.join('instance', 'messages.db')):
         db.create_all()
@@ -25,7 +27,7 @@ class Message(db.Model):
 
 class GetMessages(Resource):
     def get(self):
-        messages = Message.query.all()
+        messages = Message.query.order_by(Message.timestamp.desc()).limit(20).all()
         mess_list = []
         for mess in messages:
             mess_list.append({'message': mess.message, 'timestamp': mess.timestamp.isoformat(), 'author': mess.author})
